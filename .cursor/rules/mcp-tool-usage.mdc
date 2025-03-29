@@ -1,0 +1,32 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Mandatory MCP Tool Usage Requirements
+globs: 
+alwaysApply: true
+---
+
+## Think MCP (PRIMARY THINKING TOOL)
+- Use for ALL analysis tasks, debugging, troubleshooting, complex problem-solving, and project planning
+- Structure thoughts in a logical progression:
+  - Begin with problem definition and context assessment
+  - Analyze alternatives and trade-offs
+  - Conclude with concrete action plans
+- Record all reasoning processes to maintain decision history
+- Use for multi-step problem decomposition
+- Recall previous thoughts when needed for context
+
+## Sequential Thinking MCP (SECONDARY TOOL)
+- Only use when explicitly requested by user
+- Do not use if Think MCP has already been applied to the same problem
+- Ensure there's no collision between Think and Sequential Thinking tools
+
+## Web Search Tools
+- Use Brave Search for general programming questions, error messages, documentation
+- Use Tavily Search for specialized technical content, library-specific information
+- Focus queries on specific technical terms and include version information
+- Report found information with sources
+- Combine with Think MCP to refine solutions based on research

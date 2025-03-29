@@ -1,0 +1,29 @@
+{
+  "name": "mcp-openai-filesearch",
+  "version": "1.0.0",
+  "description": "MCP Server for OpenAI File Search",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [
+    "mcp",
+    "openai",
+    "file-search",
+    "assistant"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "dotenv": "^16.4.7",
+    "openai": "^4.28.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "typescript": "^5.8.2"
+  }
+}
