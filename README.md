@@ -21,6 +21,17 @@ For non-technical users, we've created detailed step-by-step guides:
 - Qdrant vector database (automatically runs with Docker or standalone)
 - OpenAI API key for generating embeddings ([Get one here](https://platform.openai.com/account/api-keys))
 
+## Important Note on API Keys
+
+This project requires API keys to function. For security reasons:
+
+- Never commit real API keys to the repository
+- Use the provided `.env.example` files as templates
+- Create your own `.env` files with your actual keys
+- The `.gitignore` file is configured to exclude `.env` files from Git
+
+If you need to share configuration, always use placeholder values like `your_openai_api_key` instead of real keys.
+
 ## Installation Instructions
 
 ### Step 1: Clone the Repository
@@ -62,7 +73,7 @@ qdrant
 You need to set up your environment variables for Qdrant and OpenAI (for embeddings).
 
 #### Windows
-1. Create a file named `.env` in the `mcp-openai-filesearch` folder
+1. Create a file named `.env` in the `mcp-openai-filesearch` folder based on `.env.example`
 2. Add the following content (replace OpenAI API key with your own):
 ```
 OPENAI_API_KEY=your_openai_api_key
@@ -72,7 +83,7 @@ QDRANT_COLLECTION=open_dental_docs
 ```
 
 #### macOS/Linux
-1. Create a file named `.env` in the `mcp-openai-filesearch` folder
+1. Create a file named `.env` in the `mcp-openai-filesearch` folder based on `.env.example`
 2. Add the following content (replace OpenAI API key with your own):
 ```
 OPENAI_API_KEY=your_openai_api_key
