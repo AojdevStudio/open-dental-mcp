@@ -11,7 +11,7 @@ const PORT = 3000;
 // Start the MCP server process
 const startMcpServer = () => {
   console.log('Starting MCP server process...');
-  const nodeProcess = spawn('node', ['dist/server.js'], {
+  const nodeProcess = spawn('node', ['dist/server-qdrant.js'], {
     stdio: ['pipe', 'pipe', 'pipe'] // stdin, stdout, stderr
   });
 

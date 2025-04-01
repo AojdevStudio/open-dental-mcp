@@ -2,11 +2,11 @@
   "name": "mcp-openai-filesearch",
   "version": "1.0.0",
   "description": "MCP Server for OpenDental Documentation Search",
-  "main": "dist/server.js",
+  "main": "dist/server-qdrant.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/server-qdrant.js",
     "start:qdrant": "node dist/server-qdrant.js",
     "start:rest": "node dist/rest-server.js",
     "setup:qdrant": "node dist/setup-qdrant.js",
