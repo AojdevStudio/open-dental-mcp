@@ -1,0 +1,22 @@
+{
+  "name": "open-dental-mcp",
+  "version": "1.0.0",
+  "description": "OpenDental documentation search using MCP and Qdrant",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd mcp-openai-filesearch && npm run start:qdrant",
+    "setup": "cd mcp-openai-filesearch && npm run setup:qdrant",
+    "test": "cd mcp-openai-filesearch && npm run test:qdrant",
+    "build": "cd mcp-openai-filesearch && npm run build",
+    "install:deps": "cd mcp-openai-filesearch && npm install"
+  },
+  "keywords": [
+    "qdrant",
+    "mcp",
+    "opendental",
+    "documentation",
+    "search"
+  ],
+  "author": "",
+  "license": "ISC"
+} 

@@ -1,129 +1,279 @@
-# OpenDental MCP
+# OpenDental MCP Server
 
-A Model Context Protocol (MCP) integration for OpenDental that serves as both a developer integration platform and a practice intelligence solution for dental practices.
+This repository contains an MCP (Model Context Protocol) server for querying OpenDental documentation using Qdrant vector database.
 
-## Overview
+## What is This?
 
-The OpenDental MCP platform is a comprehensive solution that bridges the gap between AI assistants and OpenDental's practice management software. It serves two primary audiences:
+This tool helps you search through OpenDental documentation using natural language questions. Instead of searching for exact keywords, you can ask questions like "How do I create an appointment?" and get relevant answers from the documentation.
 
-### 1. Developer Integration Platform
+## Platform-Specific Guides
 
-A comprehensive resource for developers working on integrations with OpenDental, providing:
+For non-technical users, we've created detailed step-by-step guides:
 
-- Structured API documentation with searchable code examples
-- Database schema references and relationship mapping
-- Integration guides and best practices
-- AI-assisted development tools for faster implementation
-- Semantic search through technical documentation
-- Code snippet generation for common integration patterns
+- [Windows Installation and Usage Guide](WINDOWS-GUIDE.md)
+- [macOS Installation and Usage Guide](MACOS-GUIDE.md)
 
-### 2. Practice Intelligence Platform for Non-Technical Users
+## System Requirements
 
-An accessible interface for dental office staff that allows them to:
+- **Windows, macOS, or Linux**
+- Node.js 18 or higher ([Download here](https://nodejs.org/))
+- Python 3.6 or higher ([Download here](https://www.python.org/downloads/))
+- Qdrant vector database (automatically runs with Docker or standalone)
+- OpenAI API key for generating embeddings ([Get one here](https://platform.openai.com/account/api-keys))
 
-- Interact with practice data using natural language queries
-- Generate custom analytics and reports without SQL knowledge
-- Access business intelligence insights for practice optimization
-- Analyze patient flow and identify improvement opportunities
-- Detect patterns in insurance claims and billing to improve efficiency
-- Assist with treatment planning and patient follow-up tracking
+## Installation Instructions
 
-## Features
+### Step 1: Clone the Repository
 
-- **Natural Language Queries**: Ask questions about OpenDental in plain English
-- **Semantic Documentation Search**: Find relevant information across the entire OpenDental ecosystem
-- **Vector Store Management**: Create and manage knowledge bases for OpenDental documentation
-- **API Documentation**: Access structured API references and database schema information
-- **Analytics Generation**: Create reports and insights from practice data
-- **Billing Optimization**: Identify patterns in claims and billing processes
-- **Patient Management Tools**: Streamline patient registration and appointment scheduling
-
-## Prerequisites
-
-- Node.js 16+
-- OpenAI API key
-- OpenAI Assistant configured for file search
-- OpenDental documentation files (PDFs, text)
-- Optional: OpenDental database access for direct analytics (requires additional configuration)
-
-## Setup
-
-1. Clone this repository:
+#### Windows
 ```
-git clone [repository-url]
+git clone https://github.com/yourusername/open-dental-mcp.git
 cd open-dental-mcp
 ```
 
-2. Install dependencies:
+#### macOS/Linux
+```bash
+git clone https://github.com/yourusername/open-dental-mcp.git
+cd open-dental-mcp
+```
+
+### Step 2: Install Qdrant
+
+You need to have Qdrant running locally. There are several ways to install it:
+
+#### Using Docker (Recommended)
+```bash
+docker pull qdrant/qdrant
+docker run -p 6333:6333 -p 6334:6334 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
+```
+
+#### On Windows without Docker
+You can download the latest release from [Qdrant GitHub releases](https://github.com/qdrant/qdrant/releases) and run it locally.
+
+#### On macOS without Docker
+You can install Qdrant with Homebrew:
+```bash
+brew install qdrant/qdrant/qdrant
+qdrant
+```
+
+### Step 3: Configure Environment Variables
+
+You need to set up your environment variables for Qdrant and OpenAI (for embeddings).
+
+#### Windows
+1. Create a file named `.env` in the `mcp-openai-filesearch` folder
+2. Add the following content (replace OpenAI API key with your own):
+```
+OPENAI_API_KEY=your_openai_api_key
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+QDRANT_COLLECTION=open_dental_docs
+```
+
+#### macOS/Linux
+1. Create a file named `.env` in the `mcp-openai-filesearch` folder
+2. Add the following content (replace OpenAI API key with your own):
+```
+OPENAI_API_KEY=your_openai_api_key
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+QDRANT_COLLECTION=open_dental_docs
+```
+
+### Step 4: Install Dependencies
+
+From the root directory:
+
+```bash
+npm run install:deps
+```
+
+Or manually:
+
+#### Windows
 ```
 cd mcp-openai-filesearch
 npm install
 ```
 
-3. Create a `.env` file with the following variables:
-```
-OPENAI_API_KEY=your_openai_api_key
-ASSISTANT_ID=your_assistant_id
-OPENDENTAL_VECTOR_STORE_ID=your_vector_store_id
+#### macOS/Linux
+```bash
+cd mcp-openai-filesearch
+npm install
 ```
 
-4. Build the project:
-```
+### Step 5: Build the Server
+
+From the root directory:
+
+```bash
 npm run build
 ```
 
-## Usage
+Or manually:
 
-### Start the MCP Server
-
+#### Windows
 ```
-npm start
+cd mcp-openai-filesearch
+npm run build
 ```
 
-### For Developers
+#### macOS/Linux
+```bash
+cd mcp-openai-filesearch
+npm run build
+```
 
-Developers can use the platform to:
+### Step 6: Setup Qdrant Collection
 
-- Query the OpenDental database schema and relationships
-- Generate sample code for common integration patterns
-- Understand API endpoints and required parameters
-- Troubleshoot integration issues with context-aware assistance
-- Access comprehensive documentation on service interfaces
+Before starting the server, you need to set up the Qdrant collection:
 
-Example developer queries:
-- "Show me the database schema for patient records"
-- "Generate a code sample for retrieving appointment data using the API"
-- "Explain the relationship between the patient table and the appointment table"
+```bash
+cd mcp-openai-filesearch
+npm run setup:qdrant
+```
 
-### For Dental Practice Staff
+## Client Configuration
 
-Non-technical users can leverage the platform to:
+To connect your MCP client (like Cursor) to the OpenDental MCP server, you need to create a configuration file. This tells your client how to launch and communicate with the server.
 
-- Generate reports on practice performance
-- Analyze patient demographics and treatment patterns
-- Optimize scheduling and reduce no-shows
-- Improve billing workflows and insurance claim success rates
-- Track treatment plan follow-ups and patient recall management
+### Setting Up mcp.json
 
-Example staff queries:
-- "How do I add a new patient?"
-- "What are the steps to schedule an appointment?"
-- "Show me patients who are overdue for hygiene appointments"
-- "Generate a report of outstanding insurance claims over 30 days"
-- "What was our production last month compared to the previous year?"
+1. Create a file named `mcp.json` in the `.cursor` directory of your project (or where your MCP client looks for configurations)
+2. Add the following configuration, adjusting paths to match your local installation:
 
-## Configuration
+#### Windows Configuration
+```json
+{
+  "mcpServers": {
+    "OpenDental-MCP": {
+      "command": "node",
+      "args": [
+        "C:\\path\\to\\open-dental-mcp\\mcp-openai-filesearch\\dist\\server-qdrant.js"
+      ],
+      "transport": "stdio",
+      "description": "Qdrant-based MCP server for OpenDental docs."
+    }
+  }
+}
+```
 
-Adjust settings in the `.env` file:
+#### macOS/Linux Configuration
+```json
+{
+  "mcpServers": {
+    "OpenDental-MCP": {
+      "command": "/usr/local/bin/node",
+      "args": [
+        "/path/to/open-dental-mcp/mcp-openai-filesearch/dist/server-qdrant.js"
+      ],
+      "transport": "stdio",
+      "description": "Qdrant-based MCP server for OpenDental docs."
+    }
+  }
+}
+```
 
-- `OPENAI_API_KEY`: Your OpenAI API key
-- `ASSISTANT_ID`: ID of your OpenAI Assistant configured for file search
-- `OPENDENTAL_VECTOR_STORE_ID`: ID of the vector store containing OpenDental docs
+### Notes for Client Configuration:
 
-## Contributing
+1. **Command Path**: 
+   - For Windows, you can usually just use `"command": "node"` if Node.js is in your PATH
+   - For macOS/Linux, use the full path to your Node.js binary (find it with `which node`)
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+2. **Server Path**: 
+   - Make sure to point to `server-qdrant.js` in the `dist` directory
+   - Use the correct path separator for your OS (`\\` for Windows, `/` for macOS/Linux)
+   - Use absolute paths to avoid any confusion
+
+3. **Verify Configuration**:
+   - After creating the mcp.json file, ensure your MCP client can detect and connect to the server
+   - If you're using Cursor, go to Settings > MCP and check if "OpenDental-MCP" appears in the list of available servers
+
+## Running the MCP Server
+
+From the root directory:
+
+```bash
+npm run start:qdrant    # Qdrant-based server
+```
+
+Or manually:
+
+### Windows
+```
+cd mcp-openai-filesearch
+npm run start:qdrant
+```
+
+### macOS/Linux
+```bash
+cd mcp-openai-filesearch
+npm run start:qdrant
+```
+
+The server will start running on `http://localhost:3000`.
+
+## Testing the Server
+
+From the root directory:
+
+```bash
+npm run query:qdrant -- --query "How do I create an appointment in Open Dental?"
+```
+
+Or manually:
+
+### Windows
+```
+cd mcp-openai-filesearch
+npm run test:qdrant
+```
+
+### macOS/Linux
+```bash
+cd mcp-openai-filesearch
+npm run test:qdrant
+```
+
+## Uploading Documentation
+
+If you need to upload your own documentation to the Qdrant vector database:
+
+1. Place your documentation files in a folder
+2. Edit the upload script to point to your documentation folder
+3. Run the setup script to create embeddings and upload them to Qdrant
+
+## Troubleshooting
+
+### Common Issues on Windows
+
+1. **Path Errors**: Make sure to use the correct path format (e.g., `C:\path\to\file` or `C:/path/to/file`) in your configuration
+2. **Permission Denied**: Run your command prompt or PowerShell as Administrator if you encounter permission issues
+3. **NPM Errors**: Make sure your Node.js installation is up to date
+4. **Port Already in Use**: If port 3000 or 6333 is already in use, check which process is using it and terminate that process
+
+### Common Issues on macOS/Linux
+
+1. **Permission Denied**: You may need to use `sudo` for some commands or fix file permissions with `chmod +x filename.py`
+2. **Python Version**: Use `python3` explicitly rather than `python` if you have multiple versions installed
+3. **Port Already in Use**: Check if port 3000 is already in use with `lsof -i :3000` and kill the process if needed
+4. **Docker Issues**: If using Docker for Qdrant, make sure Docker is running and the Qdrant container is active
+
+### API Key Issues
+
+- Ensure your OpenAI API key is valid (it's still needed for generating embeddings)
+- Make sure there are no extra spaces or characters in the `.env` file
+
+## Getting Help
+
+If you encounter issues not covered here, please:
+
+1. Check the [Qdrant documentation](https://qdrant.tech/documentation/)
+2. Check the OpenAI documentation for [embeddings](https://platform.openai.com/docs/guides/embeddings)
+3. Create an issue in this repository
+4. Contact the development team through your organization's support channels
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+This project is proprietary and confidential.

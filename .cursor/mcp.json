@@ -3,10 +3,10 @@
     "OpenDental-MCP": {
       "command": "/opt/homebrew/bin/node",
       "args": [
-        "/Users/aojdevstudio/cursor-projects/open-dental-mcp/mcp-openai-filesearch/dist/server.js"
+        "/Users/aojdevstudio/cursor-projects/open-dental-mcp/mcp-openai-filesearch/dist/server-qdrant.js"
       ],
       "transport": "stdio",
-      "description": "OpenAI file search MCP server for OpenDental docs."
+      "description": "Qdrant-based MCP server for OpenDental docs."
     }
   }
 }
